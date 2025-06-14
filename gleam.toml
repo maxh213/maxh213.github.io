@@ -1,0 +1,12 @@
+name = "maxh213_github_io"
+version = "1.0.0"
+gleam = ">= 1.0.0"
+target = "erlang"
+
+[dependencies]
+gleam_stdlib = ">= 0.38.0 and < 2.0.0"
+simplifile = ">= 2.0.0 and < 3.0.0"
+filepath = ">= 1.0.0 and < 2.0.0"
+
+[dev-dependencies]
+gleeunit = ">= 1.0.0 and < 2.0.0"

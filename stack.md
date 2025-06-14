@@ -1,0 +1,443 @@
+# Building Beautiful Static Websites Without JavaScript - The Gleam Approach
+
+## Overview
+
+This guide documents how to create visually appealing, performant websites using only static site generation and CSS, inspired by the Gleam programming language website.
+
+## Table of Contents
+
+1. [Static Site Generation with Jekyll](#static-site-generation-with-jekyll)
+2. [CSS-Only Visual Effects](#css-only-visual-effects)
+3. [Design System](#design-system)
+4. [Project Structure](#project-structure)
+5. [Build Process](#build-process)
+6. [Deployment](#deployment)
+7. [Performance Benefits](#performance-benefits)
+
+## Static Site Generation with Jekyll
+
+### Setup
+
+```yaml
+# _config.yml
+baseurl: ""
+url: "https://yoursite.com/"
+markdown: kramdown
+permalink: "/news/:title/"
+
+title: Your Site Title
+description: Your site description
+```
+
+### Basic Structure
+
+```
+project/
+├── _config.yml          # Jekyll configuration
+├── _layouts/            # HTML templates
+├── _includes/           # Reusable components
+├── _posts/              # Blog posts (if needed)
+├── css/                 # Stylesheets
+├── images/              # Static assets
+├── index.html           # Homepage
+└── Makefile             # Build commands
+```
+
+### Makefile for Building
+
+```makefile
+.PHONY: build
+build:
+	jekyll build
+
+.PHONY: serve
+serve:
+	jekyll server --watch --safe --port 3000 --drafts
+
+.PHONY: help
+help:
+	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+```
+
+## CSS-Only Visual Effects
+
+### 1. Animated Gradients
+
+```css
+/* Gradient background with animation */
+.gradient-bg {
+  background: linear-gradient(135deg, #ffaff3 0%, #a6f0fc 50%, #fffbe8 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+```
+
+### 2. Hover Effects
+
+```css
+/* Button with glow effect */
+.button {
+  background: #ffaff3;
+  color: #292d3e;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 175, 243, 0.3);
+}
+```
+
+### 3. Text Effects
+
+```css
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(45deg, #ffaff3, #a6f0fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
+/* Glowing text */
+.glow-text {
+  color: #ffaff3;
+  text-shadow: 
+    0 0 10px rgba(255, 175, 243, 0.8),
+    0 0 20px rgba(255, 175, 243, 0.6),
+    0 0 30px rgba(255, 175, 243, 0.4);
+}
+```
+
+### 4. Card Animations
+
+```css
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    0 0 40px rgba(255, 175, 243, 0.1);
+}
+```
+
+## Design System
+
+### Color Palette
+
+```css
+:root {
+  /* Primary Colors */
+  --faff-pink: #ffaff3;
+  --unnamed-blue: #a6f0fc;
+  --aged-plastic-yellow: #fffbe8;
+  
+  /* Dark Colors */
+  --unexpected-aubergine: #584355;
+  --underwater-blue: #292d3e;
+  --charcoal: #2f2f2f;
+  --almost-black: #1e1e1e;
+  
+  /* Neutral */
+  --white: #fefefc;
+  --light-gray: #f5f5f5;
+}
+```
+
+### Typography
+
+```css
+/* Base typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--charcoal);
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+
+/* Code blocks */
+code {
+  background: var(--light-gray);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'SF Mono', Monaco, Inconsolata, 'Fira Code', monospace;
+}
+```
+
+### Layout Components
+
+```css
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Grid system */
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+/* Flex utilities */
+.flex { display: flex; }
+.flex-center { align-items: center; justify-content: center; }
+.flex-between { justify-content: space-between; }
+```
+
+## Project Structure
+
+### Layout Template Example
+
+```html
+<!-- _layouts/default.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/style.css">
+    <meta name="description" content="{{ page.description | default: site.description }}">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="container flex flex-between">
+            <a href="/" class="logo gradient-text">{{ site.title }}</a>
+            <ul class="nav-links flex">
+                <li><a href="/about">About</a></li>
+                <li><a href="/docs">Docs</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        {{ content }}
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}</p>
+        </div>
+    </footer>
+</body>
+</html>
+```
+
+### Homepage Example
+
+```html
+---
+layout: default
+title: Home
+---
+
+<section class="hero gradient-bg">
+    <div class="container">
+        <h1 class="gradient-text">Beautiful Static Sites</h1>
+        <p class="lead">No JavaScript required.</p>
+        <a href="/docs" class="button">Get Started</a>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="grid grid-3">
+            <div class="card">
+                <h3>Fast</h3>
+                <p>Static HTML loads instantly</p>
+            </div>
+            <div class="card">
+                <h3>Accessible</h3>
+                <p>Works without JavaScript</p>
+            </div>
+            <div class="card">
+                <h3>Beautiful</h3>
+                <p>Modern CSS creates stunning effects</p>
+            </div>
+        </div>
+    </div>
+</section>
+```
+
+## Build Process
+
+### Development Workflow
+
+1. **Install Jekyll**:
+   ```bash
+   gem install jekyll bundler
+   ```
+
+2. **Create Gemfile**:
+   ```ruby
+   source "https://rubygems.org"
+   gem "jekyll", "~> 4.3"
+   gem "kramdown-parser-gfm"
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   bundle install
+   ```
+
+4. **Start development server**:
+   ```bash
+   make serve
+   ```
+
+5. **Build for production**:
+   ```bash
+   make build
+   ```
+
+## Deployment
+
+### GitHub Pages
+
+1. Push your code to a GitHub repository
+2. Enable GitHub Pages in repository settings
+3. Set source to `main` branch and `/docs` folder (or root)
+
+### Netlify
+
+1. Connect your GitHub repository
+2. Set build command: `jekyll build`
+3. Set publish directory: `_site`
+
+### Custom Server
+
+Simply upload the `_site` directory contents to any web server.
+
+## Performance Benefits
+
+### Metrics
+
+- **First Paint**: < 0.5s
+- **Time to Interactive**: Immediate (no JS to load)
+- **Lighthouse Score**: 95-100
+- **Page Weight**: Typically < 100KB
+
+### Optimization Tips
+
+1. **Minimize CSS**: Use a CSS minifier in your build process
+2. **Optimize images**: Use WebP format with fallbacks
+3. **Enable compression**: Configure gzip/brotli on your server
+4. **Cache headers**: Set appropriate cache lifetimes
+5. **Preload fonts**: If using custom fonts
+
+```html
+<link rel="preload" href="/fonts/custom-font.woff2" as="font" type="font/woff2" crossorigin>
+```
+
+## Advanced CSS Techniques
+
+### CSS Custom Properties for Theming
+
+```css
+/* Light/Dark mode without JS */
+:root {
+  --bg-color: var(--white);
+  --text-color: var(--charcoal);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: var(--underwater-blue);
+    --text-color: var(--white);
+  }
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s ease;
+}
+```
+
+### Scroll-triggered Animations
+
+```css
+/* Fade in on scroll using intersection observer behavior */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Modern browsers will respect motion preferences */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+    animation-play-state: paused;
+  }
+}
+
+/* Use CSS scroll-timeline when supported */
+@supports (animation-timeline: scroll()) {
+  .fade-in {
+    animation-timeline: scroll();
+    animation-range: entry 0% entry 100%;
+  }
+}
+```
+
+## Conclusion
+
+This approach proves that beautiful, modern websites don't require JavaScript frameworks. By leveraging:
+
+- Static site generation for performance
+- Modern CSS for visual effects
+- Thoughtful design principles
+- Progressive enhancement
+
+You can create websites that are fast, accessible, and visually stunning. The key is understanding CSS capabilities and using them creatively rather than reaching for JavaScript by default.
