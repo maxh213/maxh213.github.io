@@ -1,4 +1,5 @@
-# Max Harris - Personal CV Site
+# Minimal CV site in Gleam
+![Gleam](https://img.shields.io/badge/Gleam-1.0.0-blue.svg)
 
 Basic profile site made needlessly complicated by writing it with Gleam.
 
