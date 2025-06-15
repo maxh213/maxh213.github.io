@@ -2,6 +2,8 @@
 
 Basic profile site made needlessly complicated by writing it with Gleam.
 
+Completely stole the set up from https://github.com/gleam-lang/website, kind of just made this as a mini way to learn Gleam.
+
 ## Tech Stack
 
 - **Gleam** - Static site generation
@@ -20,16 +22,15 @@ Basic profile site made needlessly complicated by writing it with Gleam.
 
 ```bash
 # Install dependencies
-make deps
+gleam deps download
 
 # Build the site
-make build
+gleam run
 
-# Serve locally at http://localhost:8000
-make serve
+# Just open dist/index.html in your browser to view the site
 
 # Clean build files
-make clean
+rm -rf dist build
 ```
 
 ## Deployment

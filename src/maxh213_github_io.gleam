@@ -1,5 +1,7 @@
 import gleam/io
 import gleam/result
+import gleam/string
+import gleam/list
 import simplifile
 
 pub fn main() {
@@ -10,32 +12,62 @@ pub fn main() {
     }
     Error(error) -> {
       io.println("❌ Error building site:")
-      echo error
+      io.println(string.inspect(error))
       Nil
     }
   }
 }
 
 fn build_site() -> Result(Nil, simplifile.FileError) {
-  // Create dist directory
   use _ <- result.try(simplifile.create_directory_all("dist"))
-  
-  // Write main page
   use _ <- result.try(write_index_page())
-  
-  // Copy CSS
   use _ <- result.try(write_css())
-  
+
   Ok(Nil)
 }
 
 fn write_index_page() -> Result(Nil, simplifile.FileError) {
-  let html = "<!DOCTYPE html>
+  use content <- result.try(simplifile.read("content/index.djot"))
+  let config = parse_config(content)
+
+  let html = wrap_with_template(config, "Max Harris - Software Engineer")
+
+  simplifile.write(html, to: "dist/index.html")
+}
+
+fn parse_config(content: String) -> List(#(String, String)) {
+  content
+  |> string.split("\n")
+  |> list.filter_map(fn(line) {
+    case string.split_once(line, ": ") {
+      Ok(#(key, value)) -> Ok(#(string.trim(key), string.trim(value)))
+      Error(_) -> Error(Nil)
+    }
+  })
+}
+
+fn get_config_value(config: List(#(String, String)), key: String) -> String {
+  config
+  |> list.find(fn(item) { item.0 == key })
+  |> result.map(fn(item) { item.1 })
+  |> result.unwrap("")
+}
+
+fn wrap_with_template(config: List(#(String, String)), title: String) -> String {
+  let name = get_config_value(config, "name")
+  let job_title = get_config_value(config, "title")
+  let about = get_config_value(config, "about")
+  let linkedin_url = get_config_value(config, "linkedin_url")
+  let github_url = get_config_value(config, "github_url")
+  let email = get_config_value(config, "email")
+  let phone = get_config_value(config, "phone")
+
+  "<!DOCTYPE html>
 <html lang=\"en\">
 <head>
     <meta charset=\"UTF-8\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>Max Harris - Software Engineer</title>
+    <title>" <> title <> "</title>
     <link rel=\"stylesheet\" href=\"style.css\">
     <meta name=\"description\" content=\"Max Harris - Software Engineer\">
 </head>
@@ -43,40 +75,40 @@ fn write_index_page() -> Result(Nil, simplifile.FileError) {
     <div class=\"gradient-bg\">
         <div class=\"container\">
             <header class=\"hero\">
-                <h1 class=\"gradient-text\">Max Harris</h1>
-                <p class=\"lead\">Software Engineer</p>
+                <h1 class=\"gradient-text\">" <> name <> "</h1>
+                <p class=\"lead\">" <> job_title <> "</p>
             </header>
             
             <main class=\"content\">
                 <section class=\"about-section\">
                     <div class=\"about-card\">
                         <h2>About</h2>
-                        <p>Software Engineer at Anima International, focusing on technology solutions for animal welfare advocacy and lobbying for improved chicken welfare standards.</p>
+                        <p>" <> about <> "</p>
                     </div>
                 </section>
                 
                 <section class=\"contact-section\">
                     <div class=\"contact-grid\">
-                        <a href=\"https://www.linkedin.com/in/max-harris-53435a113/\" class=\"contact-card\" target=\"_blank\" rel=\"noopener\">
+                        <a href=\"" <> linkedin_url <> "\" class=\"contact-card\" target=\"_blank\" rel=\"noopener\">
                             <div class=\"contact-icon\">💼</div>
                             <h3>LinkedIn</h3>
                         </a>
                         
-                        <a href=\"https://github.com/maxh213\" class=\"contact-card\" target=\"_blank\" rel=\"noopener\">
+                        <a href=\"" <> github_url <> "\" class=\"contact-card\" target=\"_blank\" rel=\"noopener\">
                             <div class=\"contact-icon\">💻</div>
                             <h3>GitHub</h3>
                         </a>
                         
-                        <a href=\"mailto:max.o.harris@outlook.com\" class=\"contact-card\">
+                        <a href=\"mailto:" <> email <> "\" class=\"contact-card\">
                             <div class=\"contact-icon\">✉️</div>
                             <h3>Email</h3>
-                            <p>max.o.harris@outlook.com</p>
+                            <p>" <> email <> "</p>
                         </a>
                         
-                        <a href=\"tel:+447497866190\" class=\"contact-card\">
+                        <a href=\"tel:" <> phone <> "\" class=\"contact-card\">
                             <div class=\"contact-icon\">📱</div>
                             <h3>Phone</h3>
-                            <p>+447497 866 190</p>
+                            <p>" <> phone <> "</p>
                         </a>
                     </div>
                 </section>
@@ -85,12 +117,11 @@ fn write_index_page() -> Result(Nil, simplifile.FileError) {
     </div>
 </body>
 </html>"
-
-  simplifile.write(html, to: "dist/index.html")
 }
 
 fn write_css() -> Result(Nil, simplifile.FileError) {
-  let css = ":root {
+  let css =
+    ":root {
   --faff-pink: #ffaff3;
   --unnamed-blue: #a6f0fc;
   --aged-plastic-yellow: #fffbe8;
