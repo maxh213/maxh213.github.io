@@ -1,7 +1,16 @@
-*.beam
-*.ez
-build
-erl_crash.dump
+# Haskell build artifacts
+dist-newstyle/
+*.hi
+*.o
+*.chi
+*.chs.h
+.hpc
+.hsenv
+cabal.project.local
+cabal.project.local~
+
+# Generated site
 /dist/
-/build/
+
+# Environment
 .env
