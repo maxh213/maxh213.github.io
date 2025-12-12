@@ -3,6 +3,7 @@
 module Main where
 
 import Control.Exception (catch, IOException)
+import Data.Char (isSpace)
 import Data.Maybe (fromMaybe)
 import System.Directory (createDirectoryIfMissing)
 
@@ -37,7 +38,7 @@ parseConfig content =
   in foldr (\line acc -> maybe acc (:acc) (processLine line)) [] (lines content)
 
 trim :: String -> String
-trim = reverse . dropWhile (== ' ') . reverse . dropWhile (== ' ')
+trim = reverse . dropWhile isSpace . reverse . dropWhile isSpace
 
 getConfigValue :: [(String, String)] -> String -> String
 getConfigValue config key = fromMaybe "" (lookup key config)
