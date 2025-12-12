@@ -1,13 +1,11 @@
-# Minimal CV site in Gleam
-![Gleam](https://img.shields.io/badge/Gleam-1.0.0-blue.svg)
+# Minimal CV site in Haskell
+![Haskell](https://img.shields.io/badge/Haskell-9.12.2-purple.svg)
 
-Basic profile site made needlessly complicated by writing it with Gleam.
-
-Completely stole the set up from https://github.com/gleam-lang/website, kind of just made this as a mini way to learn Gleam.
+Basic profile site made needlessly complicated by writing it with Haskell.
 
 ## Tech Stack
 
-- **Gleam** - Static site generation
+- **Haskell** - Static site generation
 - **CSS** - Animations and styling
 - **GitHub Actions** - CI/CD
 - **GitHub Pages** - Hosting
@@ -16,22 +14,25 @@ Completely stole the set up from https://github.com/gleam-lang/website, kind of 
 
 ### Prerequisites
 
-- [Gleam](https://gleam.run/getting-started/installing/) >= 1.0.0
-- [Erlang/OTP](https://www.erlang.org/downloads) >= 26.0
+- [GHC](https://www.haskell.org/ghc/) >= 9.12.2
+- [Cabal](https://www.haskell.org/cabal/) >= 3.0
 
 ### Commands
 
 ```bash
-# Install dependencies
-gleam deps download
+# Update package index
+cabal update
 
-# Build the site
-gleam run
+# Build the site generator
+cabal build
+
+# Generate the site
+cabal run site-generator
 
 # Just open dist/index.html in your browser to view the site
 
 # Clean build files
-rm -rf dist build
+rm -rf dist dist-newstyle
 ```
 
 ## Deployment

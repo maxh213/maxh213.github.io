@@ -22,17 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Setup Gleam
-        uses: erlef/setup-beam@v1
+      - name: Setup Haskell
+        uses: haskell-actions/setup@v2
         with:
-          otp-version: "27.1.2"
-          gleam-version: "1.11.0"
+          ghc-version: '9.12.2'
+          cabal-version: 'latest'
           
-      - name: Download dependencies
-        run: gleam deps download
+      - name: Build site generator
+        run: cabal update && cabal build
         
-      - name: Build site
-        run: gleam run
+      - name: Generate site
+        run: cabal run site-generator
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
