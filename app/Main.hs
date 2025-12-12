@@ -2,22 +2,17 @@
 
 module Main where
 
-import Control.Exception (Exception, catch)
+import Control.Exception (catch, IOException)
 import Data.Maybe (fromMaybe)
 import System.Directory (createDirectoryIfMissing)
-
-data FileError = FileError String
-  deriving (Show)
-
-instance Exception FileError
 
 main :: IO ()
 main = buildSite `catch` handleError
   where
-    handleError :: FileError -> IO ()
-    handleError (FileError msg) = do
+    handleError :: IOException -> IO ()
+    handleError err = do
       putStrLn "❌ Error building site:"
-      putStrLn msg
+      print err
 
 buildSite :: IO ()
 buildSite = do
@@ -37,7 +32,7 @@ writeIndexPage = do
 parseConfig :: String -> [(String, String)]
 parseConfig content = 
   let processLine line = case break (== ':') line of
-        (key, ':':' ':value) -> Just (trim key, trim value)
+        (key, ':':rest) -> Just (trim key, trim rest)
         _ -> Nothing
   in foldr (\line acc -> maybe acc (:acc) (processLine line)) [] (lines content)
 
