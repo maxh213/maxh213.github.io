@@ -28,11 +28,15 @@ fn build_site() -> Result(Nil, simplifile.FileError) {
 fn write_index_page() -> Result(Nil, simplifile.FileError) {
   use content <- result.try(simplifile.read("content/index.djot"))
   let config = parse_config(content)
-  let html = wrap_with_template(config, "Max Harris — Software Engineer")
+  let html = render_page(config)
   simplifile.write(html, to: "dist/index.html")
 }
 
-fn parse_config(content: String) -> List(#(String, String)) {
+pub fn render_page(config: List(#(String, String))) -> String {
+  wrap_with_template(config, "Max Harris - Software Engineer")
+}
+
+pub fn parse_config(content: String) -> List(#(String, String)) {
   content
   |> string.split("\n")
   |> list.filter_map(fn(line) {
@@ -74,11 +78,10 @@ fn wrap_with_template(config: List(#(String, String)), title: String) -> String 
 <body>
     <nav class=\"nav\">
         <div class=\"container nav-inner\">
-            <a href=\"#\" class=\"logo\" aria-label=\"Home\">MH<span class=\"logo-dot\">•</span><span class=\"logo-sub\">scribbles &amp; code</span></a>
+            <a href=\"#\" class=\"logo\">" <> name <> "<span class=\"logo-dot\">•</span></a>
             <div class=\"nav-links\">
                 <a href=\"#about\" class=\"nav-link\">About</a>
-                <a href=\"#contact\" class=\"nav-link\">Contact</a>
-                <a href=\"" <> github_url <> "\" target=\"_blank\" rel=\"noopener\" class=\"btn btn-nav\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">GitHub →</a>
+                <a href=\"" <> github_url <> "\" target=\"_blank\" rel=\"noopener\" class=\"btn btn-nav\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">GitHub</a>
             </div>
         </div>
     </nav>
@@ -86,25 +89,13 @@ fn wrap_with_template(config: List(#(String, String)), title: String) -> String 
     <main class=\"container\">
         <header class=\"hero\">
             <div class=\"hero-left\">
-                <div class=\"eyebrow\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">✦ open to thoughtful collaborations</div>
                 <h1 class=\"hero-title\">
                     <span class=\"title-scribble\" aria-hidden=\"true\"></span>
-                    " <> name <> "<span class=\"bang\" aria-hidden=\"true\">!</span>
+                    " <> name <> "
                 </h1>
                 <div class=\"role-wrap\">
                     <p class=\"role\">" <> job_title <> "</p>
                     <svg class=\"wavy\" viewBox=\"0 0 260 12\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 8 Q 18 2, 36 8 T 72 8 T 108 8 T 144 8 T 180 8 T 216 8 T 252 8\" fill=\"none\" stroke=\"#ff4d4d\" stroke-width=\"3.2\" stroke-linecap=\"round\"/></svg>
-                </div>
-                <p class=\"hero-copy\">Building advocacy tech at <strong>Anima International</strong> — lobbying for better chicken welfare, sketching systems on napkins, and shipping with Gleam &amp; curiosity.</p>
-                <div class=\"ctas\">
-                    <a href=\"mailto:" <> email <> "\" class=\"btn btn-primary\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">Say hello ✉️</a>
-                    <a href=\"" <> github_url <> "\" target=\"_blank\" rel=\"noopener\" class=\"btn btn-ghost\" style=\"border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;\">See GitHub</a>
-                    <svg class=\"cta-arrow\" viewBox=\"0 0 120 44\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 24 Q 38 4, 72 18 T 106 22\" stroke=\"#2d2d2d\" stroke-width=\"2.4\" stroke-dasharray=\"6 4\" stroke-linecap=\"round\"/><path d=\"M99 12 L106 22 L95 30\" stroke=\"#2d2d2d\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></svg>
-                </div>
-                <div class=\"hero-meta\">
-                    <span class=\"meta-pill\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">Gleam on Erlang</span>
-                    <span class=\"meta-pill muted\" style=\"border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;\">London · Remote</span>
-                    <span class=\"meta-pill yellow\" style=\"border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;\">🐔 for the chickens</span>
                 </div>
             </div>
             <div class=\"hero-right\">
@@ -118,8 +109,7 @@ fn wrap_with_template(config: List(#(String, String)), title: String) -> String 
                         <div class=\"corner tl\"></div><div class=\"corner tr\"></div><div class=\"corner bl\"></div><div class=\"corner br\"></div>
                         <div class=\"polaroid-inner\">
                             <div class=\"initials\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">MH</div>
-                            <p class=\"polaroid-caption\">software engineer<br><em>Anima International</em></p>
-                            <div class=\"sticker\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">✎ drawn with care</div>
+                            <p class=\"polaroid-caption\">" <> job_title <> "</p>
                         </div>
                     </div>
                     <div class=\"dot\" aria-hidden=\"true\"></div>
@@ -133,40 +123,26 @@ fn wrap_with_template(config: List(#(String, String)), title: String) -> String 
         <div class=\"divider\" aria-hidden=\"true\"><span class=\"dash\"></span><span class=\"spark\">✦</span><span class=\"dash\"></span></div>
 
         <section id=\"about\" class=\"section\">
-            <div class=\"label\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">01 — about</div>
             <div class=\"paper\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">
                 <div class=\"pin\" aria-hidden=\"true\"></div>
-                <div class=\"paper-tag\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">note #01</div>
                 <div class=\"paper-rule\" aria-hidden=\"true\"></div>
                 <h2><span class=\"drop\">A</span>bout</h2>
                 <p class=\"paper-text\">" <> about <> "</p>
-                <p class=\"paper-foot\">I like small, well-made tools — Gleam, Erlang, and a lot of hand-drawn diagrams. This site is intentionally over-engineered as a way to learn.</p>
-                <div class=\"paper-tags\">
-                    <span class=\"ptag\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">advocacy tech</span>
-                    <span class=\"ptag alt\" style=\"border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;\">systems thinking</span>
-                    <span class=\"ptag yellow\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">welfare first</span>
-                </div>
             </div>
         </section>
 
         <section id=\"contact\" class=\"section\">
-            <div class=\"section-head\">
-                <h2 class=\"section-title\">Get in touch</h2>
-                <p class=\"section-sub\">Pin a note — I read them all, promise.</p>
-            </div>
             <svg class=\"squiggle\" viewBox=\"0 0 800 28\" fill=\"none\" aria-hidden=\"true\"><path d=\"M0 14 Q 80 0, 160 14 T 320 14 T 480 14 T 640 14 T 800 14\" stroke=\"#2d2d2d\" stroke-width=\"2\" stroke-dasharray=\"8 6\" stroke-linecap=\"round\" opacity=\"0.22\"/></svg>
             <div class=\"grid\">
                 <a href=\"" <> linkedin_url <> "\" target=\"_blank\" rel=\"noopener\" class=\"card c1\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">
                     <div class=\"card-tape\" aria-hidden=\"true\"></div>
                     <div class=\"icon\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">💼</div>
                     <h3>LinkedIn</h3>
-                    <p>Let's connect</p>
                     <span class=\"arrow\">↗</span>
                 </a>
                 <a href=\"" <> github_url <> "\" target=\"_blank\" rel=\"noopener\" class=\"card c2 postit-card\" style=\"border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;\">
                     <div class=\"icon\" style=\"border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;\">💻</div>
                     <h3>GitHub</h3>
-                    <p>@maxh213</p>
                     <span class=\"arrow\">↗</span>
                 </a>
                 <a href=\"mailto:" <> email <> "\" class=\"card c3\" style=\"border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;\">
@@ -184,30 +160,19 @@ fn wrap_with_template(config: List(#(String, String)), title: String) -> String 
                 </a>
             </div>
         </section>
-
-        <div class=\"quote-wrap\">
-            <div class=\"quote\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">
-                <p>“Built needlessly complicated with Gleam — exactly how I like to learn.”</p>
-                <span>— the original README</span>
-            </div>
-        </div>
     </main>
 
     <footer class=\"footer\">
         <div class=\"container footer-inner\">
             <div>
-                <h4 class=\"footer-title\">Max Harris<span class=\"u\" aria-hidden=\"true\"></span></h4>
-                <p>Software Engineer · Anima International<br>Sketching better futures for animals, one system at a time.</p>
+                <h4 class=\"footer-title\">" <> name <> "<span class=\"u\" aria-hidden=\"true\"></span></h4>
+                <p>" <> job_title <> "</p>
             </div>
             <div class=\"footer-links\">
                 <a href=\"" <> linkedin_url <> "\" target=\"_blank\" rel=\"noopener\">LinkedIn</a>
                 <a href=\"" <> github_url <> "\" target=\"_blank\" rel=\"noopener\">GitHub</a>
                 <a href=\"mailto:" <> email <> "\">Email</a>
             </div>
-        </div>
-        <div class=\"container footer-bottom\">
-            <span>© 2026 — drawn by hand, shipped with Gleam ✎</span>
-            <span aria-hidden=\"true\">〰〰〰</span>
         </div>
     </footer>
 </body>
