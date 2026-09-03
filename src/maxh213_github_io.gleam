@@ -394,19 +394,17 @@ a{color:inherit}
 .footer-links a:hover{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--accent)}
 .footer-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:2px dashed rgba(45,45,45,0.14);font-size:0.95rem;opacity:0.68}
 
-html.js .reveal,.fade{opacity:0}
-html.js .reveal{transform:translateY(16px)}
-html.js .reveal,.fade{transition:opacity 0.6s ease, transform 0.15s ease, box-shadow 0.15s ease}
-html.js .reveal.is-visible,.fade.is-visible{opacity:1}
-html.js .reveal.is-visible{transform:none}
-.grid .card.fade:nth-child(1){transition-delay:0s}
-.grid .card.fade:nth-child(2){transition-delay:0.07s}
-.grid .card.fade:nth-child(3){transition-delay:0.14s}
-.grid .card.fade:nth-child(4){transition-delay:0.21s}
-.grid .card.fade.is-visible{transition-delay:0s}
+html.js .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1)}
+html.js .fade{opacity:0}
+html.js .reveal.is-visible{opacity:1;transform:none}
+html.js .fade.is-visible{animation:rise 0.6s ease both}
+html.js .grid .card.fade.is-visible:nth-child(2){animation-delay:0.07s}
+html.js .grid .card.fade.is-visible:nth-child(3){animation-delay:0.14s}
+html.js .grid .card.fade.is-visible:nth-child(4){animation-delay:0.21s}
 
 @keyframes wiggle{0%,100%{transform:rotate(12deg) translateY(-6px)}50%{transform:rotate(8deg) translateY(-2px)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes rise{from{opacity:0}to{opacity:1}}
 @media(max-width:920px){.hero{grid-template-columns:1fr;gap:24px}.cta-arrow,.ring,.dot{display:none}.stack{height:400px}}
 @media(max-width:640px){.container{padding:0 16px}.grid{grid-template-columns:1fr}.card.c1,.card.c2,.card.c3,.card.c4{transform:rotate(-0.2deg)}.paper{padding:28px 18px 22px}.paper h2,.paper-text,.paper-foot,.paper-tags{padding-left:10px}.paper-rule{left:14px}}
 @media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
@@ -414,6 +412,7 @@ html.js .reveal.is-visible{transform:none}
   .bang,.dot{animation:none}
   .btn,.card,.theme-toggle{transition:none}
   html.js .reveal,html.js .fade{opacity:1 !important;transform:none !important;transition:none !important}
+  html.js .fade.is-visible{animation:none !important}
 }
 @media print{
   .nav,.back-to-top,.theme-toggle,.skip-link,.cta-arrow,.squiggle,.divider,.hero-right,.quote-wrap,.card-tape,.card .arrow,.star,.dot,.ring,.pin,.paper-tag,.paper-rule,.tape-top,.sticker{display:none !important}
@@ -431,6 +430,7 @@ html.js .reveal.is-visible{transform:none}
   a{color:#111;text-decoration:none}
   .footer{border-color:#999;background:#fff}
   .reveal,.fade{opacity:1 !important;transform:none !important}
+  .fade.is-visible{animation:none !important}
   .ctas .btn{display:none !important}
 }
 "
