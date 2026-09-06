@@ -88,6 +88,20 @@ pub fn original_copy_is_present_test() {
   |> should.equal(True)
 }
 
+pub fn chrome_is_removed_test() {
+  let html = maxh213_github_io.render_page(sample_config())
+
+  [
+    "<nav", "</nav>", "<footer", "</footer>", "MH", "class=\"initials\"",
+    "polaroid", "nav-link", "footer-links",
+  ]
+  |> list.each(fn(phrase) {
+    html
+    |> string.contains(phrase)
+    |> should.equal(False)
+  })
+}
+
 pub fn invented_copy_is_absent_test() {
   let html = maxh213_github_io.render_page(sample_config())
 
