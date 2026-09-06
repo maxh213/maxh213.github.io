@@ -141,7 +141,7 @@ html{scroll-behavior:smooth}
 body{font-family:'Patrick Hand',cursive;background-color:var(--bg);background-image:radial-gradient(var(--muted) 1px, transparent 1px);background-size:24px 24px;color:var(--fg);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{font-family:'Kalam',cursive;font-weight:700;line-height:1.05}
 a{color:inherit}
-.container{max-width:1120px;margin:0 auto;padding:0 24px}
+.container{max-width:1120px;margin:0 auto;padding:0 24px 56px}
 
 .hero{min-height:78vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 0 0}
 .hero-title{position:relative;font-size:clamp(3.4rem, 7.2vw, 5.6rem);letter-spacing:-0.03em;z-index:1}
