@@ -76,47 +76,15 @@ fn wrap_with_template(config: List(#(String, String)), title: String) -> String 
     <link rel=\"stylesheet\" href=\"style.css\">
 </head>
 <body>
-    <nav class=\"nav\">
-        <div class=\"container nav-inner\">
-            <a href=\"#\" class=\"logo\">" <> name <> "<span class=\"logo-dot\">•</span></a>
-            <div class=\"nav-links\">
-                <a href=\"#about\" class=\"nav-link\">About</a>
-                <a href=\"" <> github_url <> "\" target=\"_blank\" rel=\"noopener\" class=\"btn btn-nav\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">GitHub</a>
-            </div>
-        </div>
-    </nav>
-
     <main class=\"container\">
         <header class=\"hero\">
-            <div class=\"hero-left\">
-                <h1 class=\"hero-title\">
-                    <span class=\"title-scribble\" aria-hidden=\"true\"></span>
-                    " <> name <> "
-                </h1>
-                <div class=\"role-wrap\">
-                    <p class=\"role\">" <> job_title <> "</p>
-                    <svg class=\"wavy\" viewBox=\"0 0 260 12\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 8 Q 18 2, 36 8 T 72 8 T 108 8 T 144 8 T 180 8 T 216 8 T 252 8\" fill=\"none\" stroke=\"#ff4d4d\" stroke-width=\"3.2\" stroke-linecap=\"round\"/></svg>
-                </div>
-            </div>
-            <div class=\"hero-right\">
-                <div class=\"stack\">
-                    <div class=\"polaroid back\" style=\"border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;\" aria-hidden=\"true\">
-                        <div class=\"polaroid-top\"></div>
-                        <div class=\"polaroid-lines\"><span></span><span></span><span></span></div>
-                    </div>
-                    <div class=\"polaroid front\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">
-                        <div class=\"tape tape-top\" aria-hidden=\"true\"></div>
-                        <div class=\"corner tl\"></div><div class=\"corner tr\"></div><div class=\"corner bl\"></div><div class=\"corner br\"></div>
-                        <div class=\"polaroid-inner\">
-                            <div class=\"initials\" style=\"border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\">MH</div>
-                            <p class=\"polaroid-caption\">" <> job_title <> "</p>
-                        </div>
-                    </div>
-                    <div class=\"dot\" aria-hidden=\"true\"></div>
-                    <div class=\"ring\" aria-hidden=\"true\"></div>
-                    <div class=\"star s1\" aria-hidden=\"true\">✦</div>
-                    <div class=\"star s2\" aria-hidden=\"true\">✦</div>
-                </div>
+            <h1 class=\"hero-title\">
+                <span class=\"title-scribble\" aria-hidden=\"true\"></span>
+                " <> name <> "
+            </h1>
+            <div class=\"role-wrap\">
+                <p class=\"role\">" <> job_title <> "</p>
+                <svg class=\"wavy\" viewBox=\"0 0 260 12\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 8 Q 18 2, 36 8 T 72 8 T 108 8 T 144 8 T 180 8 T 216 8 T 252 8\" fill=\"none\" stroke=\"#ff4d4d\" stroke-width=\"3.2\" stroke-linecap=\"round\"/></svg>
             </div>
         </header>
 
@@ -161,20 +129,6 @@ fn wrap_with_template(config: List(#(String, String)), title: String) -> String 
             </div>
         </section>
     </main>
-
-    <footer class=\"footer\">
-        <div class=\"container footer-inner\">
-            <div>
-                <h4 class=\"footer-title\">" <> name <> "<span class=\"u\" aria-hidden=\"true\"></span></h4>
-                <p>" <> job_title <> "</p>
-            </div>
-            <div class=\"footer-links\">
-                <a href=\"" <> linkedin_url <> "\" target=\"_blank\" rel=\"noopener\">LinkedIn</a>
-                <a href=\"" <> github_url <> "\" target=\"_blank\" rel=\"noopener\">GitHub</a>
-                <a href=\"mailto:" <> email <> "\">Email</a>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>"
 }
@@ -189,67 +143,12 @@ h1,h2,h3,h4{font-family:'Kalam',cursive;font-weight:700;line-height:1.05}
 a{color:inherit}
 .container{max-width:1120px;margin:0 auto;padding:0 24px}
 
-.nav{position:sticky;top:0;z-index:30;background:rgba(253,251,247,0.88);backdrop-filter:blur(8px);border-bottom:2.5px solid var(--fg);padding:12px 0 13px}
-.nav-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.logo{font-family:'Kalam',cursive;font-weight:700;font-size:1.4rem;text-decoration:none;display:flex;align-items:baseline;gap:6px}
-.logo-dot{color:var(--accent);font-size:1.9rem;line-height:0.8}
-.logo-sub{font-family:'Patrick Hand',cursive;font-weight:400;font-size:0.98rem;opacity:0.65;margin-left:2px}
-.nav-links{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.nav-link{font-size:1.08rem;text-decoration:none;position:relative;padding:2px 2px 4px}
-.nav-link::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:7px;background:url(\"data:image/svg+xml,%3Csvg width='60' height='7' viewBox='0 0 60 7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5 Q 10 1, 20 5 T 40 5 T 60 5' stroke='%23ff4d4d' stroke-width='1.7' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") repeat-x;opacity:0;transform:translateY(3px);transition:0.14s}
-.nav-link:hover::after{opacity:1;transform:translateY(0)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 22px;border:3px solid var(--fg);font-family:'Patrick Hand',cursive;font-size:1.12rem;text-decoration:none;cursor:pointer;transition:transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;box-shadow:4px 4px 0 0 var(--fg);background:#fff;color:var(--fg);transform:rotate(-0.25deg)}
-.btn:hover{background:var(--accent);color:#fff;box-shadow:2px 2px 0 0 var(--fg);transform:translate(2px,2px) rotate(0deg)}
-.btn:active{box-shadow:none;transform:translate(4px,4px)}
-.btn-nav{min-height:40px;padding:7px 16px;font-size:1rem;box-shadow:3px 3px 0 0 var(--fg);background:var(--fg);color:#fff;border-color:var(--fg)}
-.btn-nav:hover{background:var(--accent);border-color:var(--fg);box-shadow:2px 2px 0 0 var(--fg)}
-.btn-ghost{background:var(--muted)}
-.btn-ghost:hover{background:var(--blue)}
-.btn-primary{background:#fff}
-
-.hero{display:grid;grid-template-columns:1.15fr 0.85fr;gap:36px;align-items:center;padding:54px 0 10px}
-.eyebrow{display:inline-block;background:var(--postit);border:2px solid var(--fg);padding:6px 14px;transform:rotate(-1.1deg);font-size:0.96rem;box-shadow:2px 2px 0 rgba(45,45,45,0.12);margin-bottom:16px}
+.hero{min-height:78vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 0 0}
 .hero-title{position:relative;font-size:clamp(3.4rem, 7.2vw, 5.6rem);letter-spacing:-0.03em;z-index:1}
-.title-scribble{position:absolute;left:-10px;right:18%;top:8%;bottom:6%;border:2.5px dashed rgba(45,45,45,0.18);transform:rotate(-1.2deg);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;z-index:-1}
-.bang{display:inline-block;color:var(--accent);transform:rotate(12deg) translateY(-6px);margin-left:4px;animation:wiggle 2.6s ease-in-out infinite}
+.title-scribble{position:absolute;left:-10px;right:-10px;top:8%;bottom:6%;border:2.5px dashed rgba(45,45,45,0.18);transform:rotate(-1.2deg);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;z-index:-1}
 .role-wrap{position:relative;display:inline-block;margin-top:6px}
 .role{font-family:'Kalam',cursive;font-size:clamp(1.35rem,3vw,1.85rem);color:var(--blue)}
 .wavy{position:absolute;left:-6px;right:-10px;bottom:-10px;width:108%;height:11px}
-.hero-copy{font-size:1.22rem;max-width:52ch;margin-top:18px;opacity:0.88}
-.ctas{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;align-items:center;position:relative}
-.cta-arrow{position:absolute;left:268px;top:-14px;width:116px;height:42px;transform:rotate(-1deg);opacity:0.95}
-.hero-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
-.meta-pill{border:2px solid var(--fg);padding:5px 10px;background:#fff;font-size:0.92rem;box-shadow:2px 2px 0 rgba(45,45,45,0.08);transform:rotate(0.35deg)}
-.meta-pill.muted{background:var(--muted);transform:rotate(-0.4deg)}
-.meta-pill.yellow{background:var(--postit);transform:rotate(0.7deg)}
-
-.hero-right{display:flex;justify-content:center;align-items:center}
-.stack{position:relative;width:100%;max-width:380px;height:420px}
-.polaroid{position:absolute;inset:0;background:#fff;border:2px solid var(--fg);box-shadow:4px 4px 0 0 var(--fg);padding:18px}
-.polaroid.back{transform:rotate(-3.2deg) translate(8px,10px);background:var(--line);display:flex;flex-direction:column;justify-content:space-between;padding:22px 18px}
-.polaroid-top{height:42%;border:2px dashed rgba(45,45,45,0.18);background:repeating-linear-gradient( -8deg, transparent 0 10px, rgba(45,45,45,0.04) 10px 11px);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px}
-.polaroid-lines{display:flex;flex-direction:column;gap:10px;padding:10px 6px}
-.polaroid-lines span{height:8px;background:var(--muted);border-radius:4px;display:block}
-.polaroid-lines span:nth-child(1){width:92%}
-.polaroid-lines span:nth-child(2){width:78%}
-.polaroid-lines span:nth-child(3){width:66%}
-.polaroid.front{transform:rotate(1.2deg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:30px}
-.tape-top{position:absolute;top:-13px;left:50%;width:118px;height:22px;background:rgba(45,45,45,0.08);border:1px solid rgba(45,45,45,0.14);transform:translateX(-50%) rotate(-1.6deg)}
-.corner{position:absolute;width:18px;height:18px;border-color:var(--fg);border-style:solid}
-.corner.tl{top:10px;left:10px;border-width:3px 0 0 3px}
-.corner.tr{top:10px;right:10px;border-width:3px 3px 0 0}
-.corner.bl{bottom:10px;left:10px;border-width:0 0 3px 3px}
-.corner.br{bottom:10px;right:10px;border-width:0 3px 3px 0}
-.polaroid-inner{display:flex;flex-direction:column;align-items:center;gap:12px}
-.initials{width:126px;height:126px;display:grid;place-items:center;font-family:'Kalam',cursive;font-weight:700;font-size:4.1rem;background:var(--bg);border:3px solid var(--fg);transform:rotate(-1deg);box-shadow:2px 2px 0 rgba(45,45,45,0.08)}
-.polaroid-caption{font-size:1.1rem;line-height:1.25}
-.polaroid-caption em{color:var(--blue);font-style:normal}
-.sticker{border:2px dashed var(--fg);padding:6px 12px;background:var(--postit);transform:rotate(-0.7deg);font-size:0.96rem}
-.dot{position:absolute;top:-8px;right:14px;width:18px;height:18px;background:var(--accent);border:2px solid var(--fg);border-radius:50%;box-shadow:2px 2px 0 var(--fg);animation:float 3s ease-in-out infinite}
-.ring{position:absolute;bottom:-12px;left:-10px;width:58px;height:58px;border:2px dashed rgba(45,45,45,0.22);border-radius:50%;transform:rotate(-10deg)}
-.star{position:absolute;font-size:1.1rem;color:var(--fg);opacity:0.9}
-.star.s1{top:18px;left:-10px;transform:rotate(-8deg)}
-.star.s2{bottom:42px;right:-6px;transform:rotate(12deg);color:var(--accent)}
 
 .divider{display:flex;align-items:center;gap:14px;padding:28px 0 6px;opacity:0.75}
 .divider .dash{flex:1;height:2px;background:repeating-linear-gradient(to right, var(--fg) 0 8px, transparent 8px 14px);opacity:0.22}
@@ -297,21 +196,9 @@ a{color:inherit}
 .quote p{font-family:'Kalam',cursive;font-size:1.16rem}
 .quote span{font-size:0.94rem;opacity:0.68}
 
-.footer{margin-top:44px;border-top:3px solid var(--fg);background:#fff;padding:28px 0 18px}
-.footer-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.footer-title{font-size:1.38rem;display:inline-block;position:relative}
-.footer-title .u{display:block;height:7px;margin-top:2px;background:url(\"data:image/svg+xml,%3Csvg width='80' height='7' viewBox='0 0 80 7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5 Q 10 1, 20 5 T 40 5 T 60 5 T 80 5' stroke='%232d2d2d' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") repeat-x}
-.footer-inner p{margin-top:8px;opacity:0.74}
-.footer-links{display:flex;flex-direction:column;gap:6px;min-width:140px}
-.footer-links a{text-decoration:none;font-size:1.06rem}
-.footer-links a:hover{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--accent)}
-.footer-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:2px dashed rgba(45,45,45,0.14);font-size:0.95rem;opacity:0.68}
-
-@keyframes wiggle{0%,100%{transform:rotate(12deg) translateY(-6px)}50%{transform:rotate(8deg) translateY(-2px)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@media(max-width:920px){.hero{grid-template-columns:1fr;gap:24px}.cta-arrow,.ring,.dot{display:none}.stack{height:400px}}
+@media(max-width:920px){.hero{min-height:70vh}}
 @media(max-width:640px){.container{padding:0 16px}.grid{grid-template-columns:1fr}.card.c1,.card.c2,.card.c3,.card.c4{transform:rotate(-0.2deg)}.paper{padding:28px 18px 22px}.paper h2,.paper-text,.paper-foot,.paper-tags{padding-left:10px}.paper-rule{left:14px}}
-@media(prefers-reduced-motion:reduce){.bang,.dot{animation:none}.btn,.card{transition:none}}
+@media(prefers-reduced-motion:reduce){.card{transition:none}}
 "
   simplifile.write(css, to: "dist/style.css")
 }
